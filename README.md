@@ -37,7 +37,3 @@ Projekti muutmiseks:
 2. Lisa stiile `css/main.css` või `css/components/` kausta
 3. Lisa JavaScript funktsioone `js/modules/` kausta
 4. Impordi uued moodulid `js/main.js` failis
-
-##Test
-See on lihtne test
-

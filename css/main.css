@@ -6,16 +6,28 @@ body {
   min-height: 100vh;
 }
 
-main {
+/* Import component styles */
+@import 'components/keyboard.css';
+
+/* Content wrapper with sidebar layout */
+.content-wrapper {
+  display: flex;
   flex-grow: 1;
+  gap: 0;
+}
+
+main {
+  flex: 1;
+  min-width: 0;
   padding: 20px;
 }
 
 /* Base header styles */
 .site-header {
-  background-color: #333;
-  color: white;
+  background-color: #f0f0f0;
+  color: #333;
   padding: 1rem;
+  border-bottom: 1px solid #ccc;
 }
 
 .main-nav ul {
@@ -27,14 +39,200 @@ main {
 }
 
 .main-nav a {
-  color: white;
+  color: #333;
   text-decoration: none;
+}
+
+/* Left sidebar styles - spans from header to footer */
+.left-sidebar {
+  width: 250px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  flex-shrink: 0;
+  border-right: 1px solid #ddd;
+  color: #333;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.sidebar-section:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-links li {
+  margin-bottom: 12px;
+}
+
+.sidebar-links a {
+  color: #0066cc;
+  text-decoration: none;
+  display: block;
+  padding: 5px 0;
+}
+
+.sidebar-links a:hover {
+  text-decoration: underline;
+}
+
+.sidebar-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Sidebar stats styling */
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Finger guide styling */
+.finger-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.finger-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.color-box {
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+/* Lesson selector styling */
+.lesson-dropdown {
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.lesson-dropdown:hover {
+  border-color: #999;
+}
+
+.lesson-dropdown:focus {
+  border-color: #0066cc;
+}
+
+.lesson-dropdown option {
+  background-color: white;
+  color: #333;
+  padding: 10px;
+}
+
+.lesson-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lesson-button {
+  background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%);
+  border: 2px solid #3498db;
+  color: #ecf0f1;
+  padding: 12px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.lesson-button:hover {
+  background: linear-gradient(180deg, #3d566e 0%, #34495e 100%);
+  border-color: #5dade2;
+  transform: translateX(5px);
+}
+
+.lesson-button.active {
+  background: linear-gradient(180deg, #3498db 0%, #2980b9 100%);
+  border-color: #5dade2;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+.lesson-button-title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.lesson-button-info {
+  display: block;
+  font-size: 0.75rem;
+  color: #bdc3c7;
+}
+
+.lesson-button.active .lesson-button-info {
+  color: #ecf0f1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  
+  .left-sidebar {
+    width: 100%;
+  }
 }
 
 /* Base footer styles */
 .site-footer {
-  background-color: #ddd;
+  background-color: #f0f0f0;
   color: #333;
   text-align: center;
   padding: 1rem;
+  border-top: 1px solid #ccc;
 }

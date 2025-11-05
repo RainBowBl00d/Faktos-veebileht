@@ -1,0 +1,44 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Basic Home Row",
+      "lines": [
+        "asdf jkl;",
+        "fdsa ;lkj",
+        "asdfjkl;",
+        "jjjj kkkk llll ;;;;"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Simple Words",
+      "lines": [
+        "the quick brown fox",
+        "jumps over the lazy dog",
+        "pack my box with five dozen liquor jugs",
+        "how vexingly quick daft zebras jump"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Common Phrases",
+      "lines": [
+        "hello world",
+        "this is a test",
+        "practice makes perfect",
+        "keep calm and carry on"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Mixed Practice",
+      "lines": [
+        "type fast and accurate",
+        "learn to touch type",
+        "keyboard skills improve with practice",
+        "focus on accuracy not speed"
+      ]
+    }
+  ]
+}

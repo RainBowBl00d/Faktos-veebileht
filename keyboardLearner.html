@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Learner | My Project</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components/keyboard.css">
+</head>
+<body>
+
+  <div data-header-container></div>
+
+  <div class="content-wrapper">
+    <aside class="left-sidebar">
+      <div class="sidebar-section">
+        <h3>Lesson</h3>
+        <select id="lesson-selector" class="lesson-dropdown">
+          <option value="">Loading lessons...</option>
+        </select>
+      </div>
+      
+      <div class="sidebar-section">
+        <h3>Statistics</h3>
+        <div class="stat-item">
+          <span class="stat-label">Current Line:</span>
+          <span class="stat-value"><span id="current-line">1</span>/<span id="total-lines">1</span></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Progress:</span>
+          <span class="stat-value"><span id="progress">0</span>/<span id="total">0</span></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Accuracy:</span>
+          <span class="stat-value" id="accuracy">100%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Errors:</span>
+          <span class="stat-value" id="errors">0</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-section">
+        <h3>Finger Guide</h3>
+        <div class="finger-guide">
+          <div class="finger-item">
+            <span class="color-box finger-left-pinky"></span>
+            <span>Left Pinky</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-left-ring"></span>
+            <span>Left Ring</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-left-middle"></span>
+            <span>Left Middle</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-left-index"></span>
+            <span>Left Index</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-right-index"></span>
+            <span>Right Index</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-right-middle"></span>
+            <span>Right Middle</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-right-ring"></span>
+            <span>Right Ring</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-right-pinky"></span>
+            <span>Right Pinky</span>
+          </div>
+          <div class="finger-item">
+            <span class="color-box finger-thumb"></span>
+            <span>Thumbs</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <main>
+      <h1>Keyboard Learner</h1>
+      <p>Type the text below to practice! Each key is color-coded by finger.</p>
+      <div id="keyboard-wrapper"></div>
+    </main>
+  </div>
+
+  <div data-footer-container></div>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/learning.js"></script>
+</body>
+</html>

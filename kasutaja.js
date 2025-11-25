@@ -1,5 +1,3 @@
-export { Kasutaja };
-
 class Kasutaja {
     completedrace = false;
     errorCount = 0;
@@ -33,6 +31,6 @@ class Kasutaja {
             document.getElementById("täpsusContainer").innerHTML = this.accuracy.toString();
         }
     }
-};
+}
 
 export { Kasutaja };

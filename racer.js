@@ -4,13 +4,18 @@ const race = {
     active: false,
     time: 0,
     racers: [],
-    tekst: "Mu isamaa, mu onn ja room. Kui kaunis oled sa!",
+    tekst: "Tekst mida peab kirjutama siin kastis",
 
     updateTextContainer(playerracer) {
         let element = document.getElementById("textContainer");
-        element.innerHTML = `<span id="past">${this.tekst.slice(0, playerracer.typingIndex)}</span>
-        <span id="current">${this.tekst.charAt(playerracer.typingIndex)}</span>
-        ${this.tekst.slice(playerracer.typingIndex + 1, this.tekst.length)}`;
+
+        const past = this.tekst.slice(0, playerracer.typingIndex);
+        const future = this.tekst.slice(playerracer.typingIndex);
+
+        element.innerHTML = `
+        <span id="past">${past}</span>
+        ${future}
+        `;
     }
 };
 

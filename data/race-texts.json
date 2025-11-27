@@ -1,0 +1,40 @@
+{
+  "texts": [
+    {
+      "id": 1,
+      "title": "Quick Brown Fox",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "difficulty": "easy"
+    },
+    {
+      "id": 2,
+      "title": "Pack My Box",
+      "text": "Pack my box with five dozen liquor jugs.",
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "title": "Programming Wisdom",
+      "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "title": "Practice Makes Perfect",
+      "text": "The only way to learn a new programming language is by writing programs in it. Practice makes perfect, and consistency is key to mastering any skill.",
+      "difficulty": "medium"
+    },
+    {
+      "id": 5,
+      "title": "Touch Typing",
+      "text": "Touch typing is the ability to use muscle memory to find keys fast without using the sense of sight. It increases typing speed and reduces errors significantly.",
+      "difficulty": "hard"
+    },
+    {
+      "id": 6,
+      "title": "Keyboard Efficiency",
+      "text": "Learning to type efficiently is one of the most valuable skills in today's digital world. With practice, you can achieve speeds of over one hundred words per minute while maintaining high accuracy.",
+      "difficulty": "hard"
+    }
+  ]
+}

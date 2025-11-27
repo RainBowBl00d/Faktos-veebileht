@@ -1,0 +1,256 @@
+/* Typeracer specific styles */
+
+.racer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.racer-header {
+  text-align: center;
+}
+
+.racer-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  color: var(--text, #111);
+}
+
+.racer-header p {
+  color: var(--muted, #666);
+}
+
+.racer-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.racer-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 25px;
+  background: var(--bg-secondary, #f9f9f9);
+  border-radius: 8px;
+  border: 1px solid var(--border, #ddd);
+}
+
+.racer-stat-label {
+  font-size: 0.85rem;
+  color: var(--muted, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.racer-stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent, #00b6ff);
+}
+
+/* Text display area */
+.text-container {
+  user-select: none;
+  border: 2px solid var(--border, #ddd);
+  border-radius: 8px;
+  padding: 25px;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  background: var(--bg-secondary, #fafafa);
+  min-height: 100px;
+  color: var(--text, #333);
+}
+
+.text-container .typed {
+  color: var(--muted, #888);
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .text-container .typed {
+  background-color: rgba(76, 175, 80, 0.3);
+}
+
+.text-container .current {
+  background-color: var(--accent, #00b6ff);
+  color: white;
+  padding: 2px 0;
+  border-radius: 2px;
+}
+
+.text-container .remaining {
+  color: var(--text, #333);
+}
+
+.text-container .error {
+  background-color: #ffcdd2;
+  color: #c62828;
+  text-decoration: underline wavy #c62828;
+}
+
+/* Text selector */
+.text-selector {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.text-selector label {
+  font-weight: 500;
+  color: var(--text, #333);
+}
+
+.text-dropdown {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 6px;
+  background: var(--card-bg, white);
+  color: var(--text, #333);
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.text-dropdown:focus {
+  outline: none;
+  border-color: var(--accent, #00b6ff);
+}
+
+/* Action buttons */
+.racer-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.racer-btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.racer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.racer-btn-primary {
+  background: var(--accent, #00b6ff);
+  color: white;
+  border: 2px solid var(--accent-border, #188fff);
+}
+
+.racer-btn-secondary {
+  background: var(--bg-secondary, #f0f0f0);
+  color: var(--text, #333);
+  border: 2px solid var(--border, #ccc);
+}
+
+/* Race completion modal */
+.race-complete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.race-complete-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.race-complete-modal {
+  background: var(--card-bg, white);
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  transform: scale(0.9);
+  transition: transform 0.3s;
+  border: 1px solid var(--border, transparent);
+}
+
+.race-complete-overlay.active .race-complete-modal {
+  transform: scale(1);
+}
+
+.race-complete-modal h2 {
+  margin: 0 0 20px 0;
+  color: var(--text, #333);
+}
+
+.race-results {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+}
+
+.race-result-item {
+  text-align: center;
+}
+
+.race-result-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted, #666);
+  margin-bottom: 5px;
+}
+
+.race-result-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--accent, #00b6ff);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .racer-container {
+    padding: 15px;
+  }
+
+  .text-container {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+
+  .racer-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .racer-stats {
+    gap: 15px;
+  }
+}
+
+/* Error shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.error-shake {
+  animation: shake 0.2s ease-in-out;
+  border-color: #c62828 !important;
+}

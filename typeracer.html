@@ -1,16 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Typeracer</title>
-    <link rel="stylesheet" type="text/css" href="racer.css">
-  </head>
-  <body>
-    <h1>Typeracer</h1>
-    <p>WPM: <span id="wpmContainer">0</span></p>
-    <p>Täpsus: <span id="täpsusContainer">100</span>%</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typeracer | Faktos</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components/racer.css">
+</head>
+<body>
 
-    <div class="unselectable" id="textContainer"></div>
+  <div data-header-container></div>
 
-    <script src="racer.js" type="module"></script>
+  <div class="content-wrapper">
+    <main>
+      <div class="racer-container">
+        <div class="racer-header">
+          <h1>Typeracer</h1>
+          <p>Test your typing speed and accuracy!</p>
+        </div>
+
+        <div class="text-selector">
+          <label for="text-selector">Choose text:</label>
+          <select id="text-selector" class="text-dropdown">
+            <option value="">Loading texts...</option>
+          </select>
+        </div>
+
+        <div class="racer-stats">
+          <div class="racer-stat">
+            <span class="racer-stat-label">WPM</span>
+            <span class="racer-stat-value" id="wpmContainer">0</span>
+          </div>
+          <div class="racer-stat">
+            <span class="racer-stat-label">Accuracy</span>
+            <span class="racer-stat-value" id="accuracyContainer">100<small>%</small></span>
+          </div>
+          <div class="racer-stat">
+            <span class="racer-stat-label">Time</span>
+            <span class="racer-stat-value" id="timeContainer">0.0<small>s</small></span>
+          </div>
+        </div>
+
+        <div class="text-container" id="textContainer">
+          <span class="remaining">Loading text...</span>
+        </div>
+
+        <div class="racer-actions">
+          <button class="racer-btn racer-btn-primary" id="startBtn" disabled>Start typing...</button>
+          <button class="racer-btn racer-btn-secondary" id="restartBtn">Restart</button>
+        </div>
+      </div>
+
+      <!-- Completion Modal -->
+      <div class="race-complete-overlay" id="completeOverlay">
+        <div class="race-complete-modal">
+          <h2>🏁 Race Complete!</h2>
+          <div class="race-results">
+            <div class="race-result-item">
+              <span class="race-result-label">WPM</span>
+              <span class="race-result-value" id="finalWpm">0</span>
+            </div>
+            <div class="race-result-item">
+              <span class="race-result-label">Accuracy</span>
+              <span class="race-result-value" id="finalAccuracy">100%</span>
+            </div>
+            <div class="race-result-item">
+              <span class="race-result-label">Time</span>
+              <span class="race-result-value" id="finalTime">0s</span>
+            </div>
+          </div>
+          <button class="racer-btn racer-btn-primary" id="tryAgainBtn">Try Again</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div data-footer-container></div>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/racer.js" type="module"></script>
   </body>
 </html>

@@ -7,6 +7,7 @@ export class KeyboardComponent {
       onComplete: options.onComplete || null,
       onKeyPress: options.onKeyPress || null,
       onLineComplete: options.onLineComplete || null,
+      onError: options.onError || null,
       jsonPath: options.jsonPath || null,
       lessonId: options.lessonId || null,
       ...options
@@ -20,10 +21,17 @@ export class KeyboardComponent {
     this.totalElement = null;
     this.accuracyElement = null;
     this.errorsElement = null;
+    this.wpmElement = null;
     this.lessons = null;
     this.currentLesson = null;
     this.currentLineIndex = 0;
     this.lines = [];
+    
+    // Timing for WPM calculation
+    this.startTime = null;
+    this.isTyping = false;
+    this.isCompleted = false; // Track completion state
+    this.completionTimeout = null; // Track pending completion timeout
     
     this.init();
   }
@@ -81,6 +89,7 @@ export class KeyboardComponent {
     this.errorsElement = document.getElementById('errors');
     this.currentLineElement = document.getElementById('current-line');
     this.totalLinesElement = document.getElementById('total-lines');
+    this.wpmElement = document.getElementById('wpm');
   }
   
   updateStats() {
@@ -103,6 +112,14 @@ export class KeyboardComponent {
     }
     if (this.totalLinesElement) {
       this.totalLinesElement.textContent = this.lines ? this.lines.length : 1;
+    }
+    if (this.wpmElement && this.startTime) {
+      const elapsedMinutes = (performance.now() - this.startTime) / 60000;
+      if (elapsedMinutes > 0) {
+        const wordCount = this.currentIndex / 5; // Standard: 5 chars = 1 word
+        const wpm = Math.round(wordCount / elapsedMinutes);
+        this.wpmElement.textContent = wpm;
+      }
     }
   }
   
@@ -253,39 +270,75 @@ export class KeyboardComponent {
   handleKeyDown(event) {
     const key = event.key;
     
+    // Don't process input if lesson is completed
+    if (this.isCompleted) {
+      return;
+    }
+    
+    // Handle backspace for mistake correction
+    if (key === 'Backspace' && this.options.showPractice) {
+      event.preventDefault();
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        this.displayPracticeText();
+        this.updateStats();
+      }
+      return;
+    }
+    
     // Check if typing practice is enabled
     if (this.options.showPractice && this.currentIndex < this.options.practiceText.length) {
       const expectedKey = this.options.practiceText[this.currentIndex];
       
-      this.totalKeyPresses++;
-      
-      if (key === expectedKey) {
-        this.currentIndex++;
-        this.displayPracticeText();
-        
-        // Check if completed
-        if (this.currentIndex === this.options.practiceText.length) {
-          setTimeout(() => {
-            // Check if there are more lines
-            if (this.lines && this.lines.length > 0 && this.currentLineIndex < this.lines.length - 1) {
-              this.nextLine();
-            } else {
-              // All lines completed
-              if (this.options.onComplete) {
-                this.options.onComplete();
-              } else {
-                alert('Congratulations! You completed all lines!');
-              }
-              this.reset();
-            }
-          }, 100);
-        }
-      } else {
-        // Wrong key pressed
-        this.errors++;
+      // Start timing on first keypress
+      if (!this.isTyping && key.length === 1) {
+        this.isTyping = true;
+        this.startTime = performance.now();
       }
       
-      this.updateStats();
+      // Only count printable characters
+      if (key.length === 1) {
+        this.totalKeyPresses++;
+      
+        if (key === expectedKey) {
+          this.currentIndex++;
+          this.displayPracticeText();
+          
+          // Check if completed
+          if (this.currentIndex === this.options.practiceText.length) {
+            // Clear any existing timeout
+            if (this.completionTimeout) {
+              clearTimeout(this.completionTimeout);
+            }
+            this.completionTimeout = setTimeout(() => {
+              // Check if there are more lines
+              if (this.lines && this.lines.length > 0 && this.currentLineIndex < this.lines.length - 1) {
+                this.nextLine();
+              } else {
+                // All lines completed - mark as completed to prevent further input
+                this.isCompleted = true;
+                if (this.options.onComplete) {
+                  this.options.onComplete();
+                } else {
+                  this.showCompletionModal();
+                }
+                // Don't reset here - let the modal handle restart
+              }
+              this.completionTimeout = null;
+            }, 100);
+          }
+        } else {
+          // Wrong key pressed - add visual error feedback
+          this.errors++;
+          this.showErrorFeedback(expectedKey);
+          
+          if (this.options.onError) {
+            this.options.onError(key, expectedKey);
+          }
+        }
+      
+        this.updateStats();
+      }
     }
     
     // Visual feedback for key press
@@ -296,6 +349,106 @@ export class KeyboardComponent {
     if (this.options.onKeyPress) {
       this.options.onKeyPress(key);
     }
+  }
+  
+  showErrorFeedback(expectedKey) {
+    // Shake the practice text container
+    if (this.practiceTextElement) {
+      this.practiceTextElement.classList.add('error-shake');
+      setTimeout(() => this.practiceTextElement.classList.remove('error-shake'), 200);
+    }
+    
+    // Highlight the current character as error
+    const currentChar = this.practiceTextElement?.querySelector('.current');
+    if (currentChar) {
+      currentChar.classList.add('error');
+      setTimeout(() => currentChar.classList.remove('error'), 300);
+    }
+    
+    // Highlight the expected key in red
+    const keyToFind = expectedKey === ' ' ? ' ' : expectedKey.toLowerCase();
+    const keys = this.container.querySelectorAll(`[data-key="${keyToFind}"]`);
+    keys.forEach(keyElement => {
+      keyElement.classList.add('error-key');
+      setTimeout(() => keyElement.classList.remove('error-key'), 300);
+    });
+  }
+  
+  showCompletionModal() {
+    const accuracy = this.totalKeyPresses === 0 ? 100 : 
+      Math.round(((this.totalKeyPresses - this.errors) / this.totalKeyPresses) * 100);
+    const elapsedMinutes = this.startTime ? (performance.now() - this.startTime) / 60000 : 0;
+    const wpm = elapsedMinutes > 0 ? Math.round((this.currentIndex / 5) / elapsedMinutes) : 0;
+    
+    // Save stats to localStorage
+    this.saveCompletionStats(wpm, accuracy);
+    
+    // Create and show modal
+    const modal = document.createElement('div');
+    modal.className = 'completion-modal-overlay';
+    modal.innerHTML = `
+      <div class="completion-modal">
+        <h2>🎉 Lesson Complete!</h2>
+        <div class="completion-stats">
+          <div class="completion-stat">
+            <span class="completion-label">WPM</span>
+            <span class="completion-value">${wpm}</span>
+          </div>
+          <div class="completion-stat">
+            <span class="completion-label">Accuracy</span>
+            <span class="completion-value">${accuracy}%</span>
+          </div>
+          <div class="completion-stat">
+            <span class="completion-label">Errors</span>
+            <span class="completion-value">${this.errors}</span>
+          </div>
+        </div>
+        <button class="completion-btn" id="completion-close-btn">Continue</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Animate in
+    requestAnimationFrame(() => modal.classList.add('active'));
+    
+    // Close handler
+    modal.querySelector('#completion-close-btn').addEventListener('click', () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 300);
+    });
+  }
+  
+  saveCompletionStats(wpm, accuracy) {
+    const stats = JSON.parse(localStorage.getItem('typingStats') || '{}');
+    
+    if (!stats.lessons) stats.lessons = {};
+    if (!stats.history) stats.history = [];
+    
+    const lessonId = this.currentLesson?.id || 'custom';
+    
+    // Update lesson completion
+    if (!stats.lessons[lessonId]) {
+      stats.lessons[lessonId] = { completed: 0, bestWpm: 0, bestAccuracy: 0 };
+    }
+    stats.lessons[lessonId].completed++;
+    stats.lessons[lessonId].bestWpm = Math.max(stats.lessons[lessonId].bestWpm, wpm);
+    stats.lessons[lessonId].bestAccuracy = Math.max(stats.lessons[lessonId].bestAccuracy, accuracy);
+    
+    // Add to history
+    stats.history.push({
+      date: new Date().toISOString(),
+      lessonId,
+      wpm,
+      accuracy,
+      errors: this.errors
+    });
+    
+    // Keep only last 50 entries
+    if (stats.history.length > 50) {
+      stats.history = stats.history.slice(-50);
+    }
+    
+    localStorage.setItem('typingStats', JSON.stringify(stats));
   }
   
   handleKeyUp(event) {
@@ -391,10 +544,24 @@ export class KeyboardComponent {
   }
   
   reset() {
+    // Clear any pending completion timeout
+    if (this.completionTimeout) {
+      clearTimeout(this.completionTimeout);
+      this.completionTimeout = null;
+    }
+    
     this.currentIndex = 0;
     this.currentLineIndex = 0;
     this.errors = 0;
     this.totalKeyPresses = 0;
+    this.startTime = null;
+    this.isTyping = false;
+    this.isCompleted = false; // Allow typing again
+    
+    // Reset WPM display
+    if (this.wpmElement) {
+      this.wpmElement.textContent = '0';
+    }
     
     // Reset to first line if using lessons
     if (this.lines && this.lines.length > 0) {

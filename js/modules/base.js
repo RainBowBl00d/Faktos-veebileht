@@ -1,4 +1,4 @@
-import { getHeader } from './header.js';
+import { getHeader, initDarkMode } from './header.js';
 import { getFooter } from './footer.js';
 
 export const loadBaseTemplate = () => {
@@ -13,5 +13,8 @@ export const loadBaseTemplate = () => {
     if (footerContainer) {
       footerContainer.innerHTML = getFooter();
     }
+    
+    // Initialize dark mode toggle
+    initDarkMode();
   });
 };
